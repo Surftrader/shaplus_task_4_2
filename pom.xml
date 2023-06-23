@@ -40,7 +40,7 @@
                             <finalName>${project.artifactId}-assembly-${project.version}</finalName>
                             <archive>
                                 <manifest>
-                                    <mainClass>ua.com.poseal.Main</mainClass>
+                                    <mainClass>ua.com.poseal.App</mainClass>
                                     <addClasspath>true</addClasspath>
                                     <classpathPrefix>config/</classpathPrefix>
                                 </manifest>
@@ -78,6 +78,12 @@
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator-cdi</artifactId>
             <version>8.0.0.Final</version>
+        </dependency>
+        <!-- JDBC DRIVER -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.6.0</version>
         </dependency>
         <!--    Logger    -->
         <dependency>
