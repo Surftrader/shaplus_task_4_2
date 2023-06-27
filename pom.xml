@@ -83,7 +83,13 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.6.0</version>
+            <version>42.5.4</version>
+<!--            <version>42.6.0</version>-->
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.5.13</version>
         </dependency>
         <!--    Logger    -->
         <dependency>

@@ -1,18 +1,14 @@
 package ua.com.poseal.shopping.mall.domain;
 
-import java.util.List;
-
 public class Store {
     private Long id;
     private String name;
-    private Address address;
-    private List<Product> productList;
+    private Long addressId;
 
-    public Store() {
-    }
-
-    public Store(String name) {
+    public Store(Long id, String name, Long addressId) {
+        this.id = id;
         this.name = name;
+        this.addressId = addressId;
     }
 
     public Long getId() {
@@ -31,20 +27,12 @@ public class Store {
         this.name = name;
     }
 
-    public Address getAddress() {
-        return address;
+    public Long getAddressId() {
+        return addressId;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public List<Product> getProductList() {
-        return productList;
-    }
-
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
     }
 
     @Override

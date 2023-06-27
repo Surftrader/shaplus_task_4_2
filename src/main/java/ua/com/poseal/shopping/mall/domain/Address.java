@@ -2,9 +2,14 @@ package ua.com.poseal.shopping.mall.domain;
 
 public class Address {
     private Long id;
-    private City city;
-    private String street;
-    private String build;
+    private String name;
+    private Long cityId;
+
+    public Address(Long id, String name, Long cityId) {
+        this.id = id;
+        this.name = name;
+        this.cityId = cityId;
+    }
 
     public Long getId() {
         return id;
@@ -14,28 +19,20 @@ public class Address {
         this.id = id;
     }
 
-    public String getStreet() {
-        return street;
+    public String getName() {
+        return name;
     }
 
-    public City getCity() {
-        return city;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setCity(City city) {
-        this.city = city;
+    public Long getCityId() {
+        return cityId;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getBuild() {
-        return build;
-    }
-
-    public void setBuild(String build) {
-        this.build = build;
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
     }
 
     @Override

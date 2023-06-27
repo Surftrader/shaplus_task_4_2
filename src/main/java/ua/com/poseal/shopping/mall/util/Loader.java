@@ -5,14 +5,17 @@ import ua.com.poseal.App;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Properties;
 
-import static ua.com.poseal.shopping.mall.util.PostgresConnectionUtils.logger;
+import static ua.com.poseal.shopping.mall.connection.PostgresConnectionUtils.logger;
 
 public class Loader {
 
     public static final String PROPERTY_FILE = "application.properties";
     public static final String PROPERTY_FOLDER = "config";
+    public static final String CATEGORY = "category";
+    private static final String DEFAULT_CATEGORY = "Продукти";
 
     public Properties getFileProperties() {
         logger.debug("Entered getFileProperties() method");
@@ -26,6 +29,7 @@ public class Loader {
         } else {
             downloadInternalProperties(properties);
         }
+        downloadSystemProperties(properties);
         logger.debug("Exited getFileProperties() method");
         return properties;
     }
@@ -51,5 +55,16 @@ public class Loader {
             logger.error("Error loading properties from internal file", e);
         }
         logger.debug("Exited downloadInternalProperties() method");
+    }
+
+    protected void downloadSystemProperties(Properties properties) {
+        logger.debug("Entered downloadSystemProperties() method");
+        Properties props = System.getProperties();
+        properties.putAll(props);
+        String category = Optional.ofNullable(properties.getProperty(CATEGORY))
+                .orElse(DEFAULT_CATEGORY);
+        properties.setProperty(CATEGORY, category);
+        logger.info("The {} category was obtained from the properties", category);
+        logger.debug("Exited downloadSystemProperties() method");
     }
 }

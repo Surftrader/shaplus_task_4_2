@@ -6,22 +6,21 @@ import java.math.BigDecimal;
 
 public class Product {
     private Long id;
-
-    @Length(min = 4, max = 9)
+    @Length(min = 4, max = 9, message = "Product name must contain 4 to 9 letters")
     private String name;
     private BigDecimal price;
-    private Category category;
-    private Store store;
+    private Long categoryId;
+    private Long storeId;
 
     public Product() {
 
     }
 
-    public Product(String name, BigDecimal price, Category category, Store store) {
+    public Product(String name, BigDecimal price, Long categoryId, Long storeId) {
         this.name = name;
         this.price = price;
-        this.category = category;
-        this.store = store;
+        this.categoryId = categoryId;
+        this.storeId = storeId;
     }
 
 
@@ -49,20 +48,20 @@ public class Product {
         this.price = price;
     }
 
-    public Category getCategory() {
-        return category;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public Store getStore() {
-        return store;
+    public Long getStoreId() {
+        return storeId;
     }
 
-    public void setStore(Store store) {
-        this.store = store;
+    public void setStoreId(Long storeId) {
+        this.storeId = storeId;
     }
 
     @Override
