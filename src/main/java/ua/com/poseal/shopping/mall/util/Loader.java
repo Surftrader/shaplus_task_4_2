@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
 
-import static ua.com.poseal.shopping.mall.connection.PostgresConnectionUtils.logger;
+import static ua.com.poseal.App.logger;
 
 public class Loader {
 
@@ -64,7 +64,7 @@ public class Loader {
         String category = Optional.ofNullable(properties.getProperty(CATEGORY))
                 .orElse(DEFAULT_CATEGORY);
         properties.setProperty(CATEGORY, category);
-        logger.info("The {} category was obtained from the properties", category);
+        logger.info("The \"{}\" category was obtained from the properties", category);
         logger.debug("Exited downloadSystemProperties() method");
     }
 }

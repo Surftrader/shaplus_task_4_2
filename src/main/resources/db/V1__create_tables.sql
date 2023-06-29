@@ -1,12 +1,3 @@
--- \c shapp_db;
-
--- DROP TABLE shop.leftover;
--- DROP TABLE shop.products;
--- DROP TABLE shop.stores;
--- DROP TABLE shop.categories;
--- DROP TABLE shop.addresses;
--- DROP TABLE shop.cities;
-
 DROP SCHEMA shop CASCADE;
 CREATE SCHEMA shop;
 
@@ -19,7 +10,7 @@ CREATE TABLE shop.cities
 CREATE TABLE shop.addresses
 (
     id      BIGSERIAL PRIMARY KEY NOT NULL,
-    name  CHARACTER(30)         NOT NULL,
+    name    CHARACTER(30)         NOT NULL,
     city_id BIGINT                NOT NULL,
     CONSTRAINT city_fkey FOREIGN KEY (city_id) REFERENCES shop.cities (id)
 );

@@ -1,28 +1,26 @@
 package ua.com.poseal.shopping.mall.service;
 
-import ua.com.poseal.shopping.mall.domain.Leftover;
-import ua.com.poseal.shopping.mall.util.Generator;
+import ua.com.poseal.shopping.mall.dao.LeftoverDAO;
+import ua.com.poseal.shopping.mall.dto.LeftoverDTO;
 
 import java.util.List;
 import java.util.Properties;
 
 public class LeftoverService {
-//    private final LeftoverDAO leftoverDAO;
-//    private final Generator generator;
-//
-//    public LeftoverService(Properties properties) {
-//        this.leftoverDAO = new LeftoverDAO(properties);
-//        this.generator = new Generator();
-//    }
-//
-//    public List<String> findAddressStoresByCategoryWithMaxProduct() {
-//        return leftoverDAO.findAddressStoresByCategoryWithMaxProduct();
-//    }
-//
-//    public void fillLeftover() {
-//        Leftover leftover = new Leftover();
-//        // TODO: generate leftover
-//        // --
-//        leftoverDAO.insert(leftover);
-//    }
+    private final LeftoverDAO leftoverDAO;
+    public LeftoverService(Properties properties) {
+        this.leftoverDAO = new LeftoverDAO(properties);
+    }
+
+    public void saveDataIntoLeftover() {
+        leftoverDAO.insertDataIntoLeftover();
+    }
+
+    public List<LeftoverDTO> findMaxLeftover() {
+        return leftoverDAO.getMaxLeftover();
+    }
+
+    public List<LeftoverDTO> findMaxLeftoverWithTies() {
+        return leftoverDAO.getMaxLeftoverWithTies();
+    }
 }

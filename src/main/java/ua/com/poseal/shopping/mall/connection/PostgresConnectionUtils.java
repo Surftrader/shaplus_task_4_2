@@ -1,16 +1,13 @@
 package ua.com.poseal.shopping.mall.connection;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class PostgresConnectionUtils implements ConnectionUtils {
+import static ua.com.poseal.App.logger;
 
-    public static final Logger logger = LoggerFactory.getLogger("LOGGER");
+public class PostgresConnectionUtils implements ConnectionUtils {
     public static final String URL = "url";
     public static final String USERNAME = "user";
     public static final String PASSWORD = "password";

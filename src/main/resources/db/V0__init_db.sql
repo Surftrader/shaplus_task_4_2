@@ -1,9 +1,0 @@
-DROP DATABASE IF EXISTS shapp_db;
-
-CREATE
-    DATABASE shapp_db
-    WITH OWNER = postgres
-    ENCODING = 'UTF8'
-    CONNECTION LIMIT = -1;
-
-CREATE SCHEMA shop;

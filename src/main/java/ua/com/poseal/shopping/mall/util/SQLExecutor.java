@@ -7,19 +7,19 @@ import ua.com.poseal.shopping.mall.connection.PostgresConnectionUtils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.Reader;
 import java.sql.Connection;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 
-import static ua.com.poseal.shopping.mall.connection.PostgresConnectionUtils.logger;
+import static ua.com.poseal.App.logger;
 
 public class SQLExecutor {
     private final Properties properties;
+    private final ConnectionUtils connectionUtils;
 
     public SQLExecutor(Properties properties) {
         this.properties = properties;
+        this.connectionUtils = new PostgresConnectionUtils();
     }
 
     public void execute(String file) {
@@ -27,17 +27,17 @@ public class SQLExecutor {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
-        ConnectionUtils utils = new PostgresConnectionUtils();
-        Connection connection = utils.getConnection(properties);
+        Connection connection = connectionUtils.getConnection(properties);
         ScriptRunner scriptRunner = new ScriptRunner(connection);
         try (Reader reader = new BufferedReader(new FileReader(file))) {
             scriptRunner.runScript(reader);
-        } catch (IOException e) {
+            connection.close();
+        } catch (Exception e) {
             logger.error("Error running sql script");
         }
 
         stopWatch.stop();
-        logger.info("File {} was executed in {} sec", file, stopWatch.getTime(TimeUnit.SECONDS));
+        logger.info("File {} was executed in {} ms", file, stopWatch.getTime());
         logger.debug("Exited execute() method");
     }
 }

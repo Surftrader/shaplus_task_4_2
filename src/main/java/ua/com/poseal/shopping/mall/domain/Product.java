@@ -8,13 +8,9 @@ public class Product {
     private Long id;
     @Length(min = 4, max = 9, message = "Product name must contain 4 to 9 letters")
     private String name;
-    private BigDecimal price;
-    private Long categoryId;
-    private Long storeId;
-
-    public Product() {
-
-    }
+    private final BigDecimal price;
+    private final Long categoryId;
+    private final Long storeId;
 
     public Product(String name, BigDecimal price, Long categoryId, Long storeId) {
         this.name = name;
@@ -22,7 +18,6 @@ public class Product {
         this.categoryId = categoryId;
         this.storeId = storeId;
     }
-
 
     public Long getId() {
         return id;
@@ -44,24 +39,8 @@ public class Product {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
     public Long getCategoryId() {
         return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public Long getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(Long storeId) {
-        this.storeId = storeId;
     }
 
     @Override
@@ -77,5 +56,16 @@ public class Product {
     @Override
     public int hashCode() {
         return id.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", categoryId=" + categoryId +
+                ", storeId=" + storeId +
+                '}';
     }
 }

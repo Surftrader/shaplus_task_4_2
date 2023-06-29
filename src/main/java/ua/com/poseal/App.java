@@ -1,17 +1,32 @@
 package ua.com.poseal;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ua.com.poseal.shopping.mall.dto.LeftoverDTO;
+import ua.com.poseal.shopping.mall.service.LeftoverService;
 import ua.com.poseal.shopping.mall.service.ProductService;
 import ua.com.poseal.shopping.mall.util.Loader;
 import ua.com.poseal.shopping.mall.util.SQLExecutor;
 
+import java.io.File;
+import java.util.List;
 import java.util.Properties;
 
 public class App {
+
+    public static final Logger logger = LoggerFactory.getLogger("LOGGER");
+    public static final String DB_FOLDER = "db";
+    public static final String SQL_CREATE_TABLES = "V1__create_tables.sql";
+    public static final String SQL_INSERT_DATA = "V2__insert_data.sql";
     public static final String PRODUCTS = "products";
 
     public static void main(String[] args) {
-        App app = new App();
-        app.run();
+        try {
+            App app = new App();
+            app.run();
+        } catch (Exception e) {
+            logger.error("Error running program", e);
+        }
     }
 
     private void run() {
@@ -20,19 +35,22 @@ public class App {
 
         // create tables via scripts
         SQLExecutor sqlExecutor = new SQLExecutor(properties);
-        sqlExecutor.execute("db/V1__create_tables.sql");
-        sqlExecutor.execute("db/V2__insert_data.sql");
+        sqlExecutor.execute(DB_FOLDER + File.separator + SQL_CREATE_TABLES);
+        sqlExecutor.execute(DB_FOLDER + File.separator + SQL_INSERT_DATA);
 
+        // Generate products and insert them into a table
         ProductService productService = new ProductService(properties);
-        productService.saveAll(Long.parseLong(properties.getProperty(PRODUCTS)));
+        productService.saveProducts(Long.parseLong(properties.getProperty(PRODUCTS)));
 
-        // Fill table liftover
-        sqlExecutor.execute("db/V4__insert_data.sql");
+        // Fill leftover table
+        LeftoverService leftoverService = new LeftoverService(properties);
+        leftoverService.saveDataIntoLeftover();
 
-        // TWO VARIANTS
-        // task query
-        sqlExecutor.execute("db/V5__leftover.sql");
-        // task query with ties
-        sqlExecutor.execute("db/V6__leftover_with_ties.sql");
+        // query task
+        List<LeftoverDTO> maxLeftover = leftoverService.findMaxLeftover();
+        maxLeftover.forEach(s -> logger.info(String.valueOf(s)));
+        // query task with ties
+        maxLeftover = leftoverService.findMaxLeftoverWithTies();
+        maxLeftover.forEach(s -> logger.info(String.valueOf(s)));
     }
 }
