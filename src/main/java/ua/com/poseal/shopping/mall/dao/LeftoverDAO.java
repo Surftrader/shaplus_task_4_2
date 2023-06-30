@@ -5,11 +5,13 @@ import ua.com.poseal.shopping.mall.connection.ConnectionUtils;
 import ua.com.poseal.shopping.mall.connection.PostgresConnectionUtils;
 import ua.com.poseal.shopping.mall.dto.LeftoverDTO;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 
 import static ua.com.poseal.App.logger;
 import static ua.com.poseal.shopping.mall.util.Loader.CATEGORY;
@@ -81,7 +83,7 @@ public class LeftoverDAO {
 
         stopWatch.stop();
         logger.info("3000000 rows were inserted into table shop.liftover in {} ms", stopWatch.getTime());
-        logger.info("RPS = {} rows in second", 3000000 / stopWatch.getTime(TimeUnit.SECONDS));
+        logger.info("RPS = {} rows in ms", 3000000 / stopWatch.getTime());
         logger.debug("Exited insertDataIntoLeftover() method");
     }
 
