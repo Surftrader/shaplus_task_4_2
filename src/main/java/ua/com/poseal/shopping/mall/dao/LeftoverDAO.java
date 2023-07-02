@@ -98,7 +98,9 @@ public class LeftoverDAO {
             statement.setString(1, properties.getProperty(CATEGORY));
 
             ResultSet resultSet = statement.executeQuery();
-            dto = getLeftoverDTO(resultSet);
+            if (resultSet.next()) {
+                dto = getLeftoverDTO(resultSet);
+            }
         } catch (SQLException e) {
             logger.error("SQL error finding product", e);
         }
