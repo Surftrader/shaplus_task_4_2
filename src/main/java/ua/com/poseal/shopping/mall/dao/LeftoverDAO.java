@@ -87,46 +87,60 @@ public class LeftoverDAO {
         logger.debug("Exited insertDataIntoLeftover() method");
     }
 
-    public List<LeftoverDTO> getMaxLeftover() {
+    public LeftoverDTO getMaxLeftover() {
         logger.debug("Entered getMaxLeftover() method");
-        List<LeftoverDTO> dtos = getLeftoverDTOS(SQL_FIND_MAX, "");
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+
+        LeftoverDTO dto = null;
+        try (Connection connection = connectionUtils.getConnection(properties);
+             PreparedStatement statement = connection.prepareStatement(SQL_FIND_MAX)) {
+            statement.setString(1, properties.getProperty(CATEGORY));
+
+            ResultSet resultSet = statement.executeQuery();
+            dto = getLeftoverDTO(resultSet);
+        } catch (SQLException e) {
+            logger.error("SQL error finding product", e);
+        }
+
+        stopWatch.stop();
+        logger.info("Get max leftover in {} ms", stopWatch.getTime());
         logger.debug("Exited getMaxLeftover() method");
 
-        return dtos;
+        return dto;
+    }
+
+    private static LeftoverDTO getLeftoverDTO(ResultSet resultSet) throws SQLException {
+        return new LeftoverDTO(
+                resultSet.getString("city"),
+                resultSet.getString("address"),
+                resultSet.getInt("amount"));
     }
 
     public List<LeftoverDTO> getMaxLeftoverWithTies() {
         logger.debug("Entered getMaxLeftoverWithTies() method");
-        List<LeftoverDTO> dtos = getLeftoverDTOS(SQL_FIND_MAX_WITH_TIES, "with ties");
-        logger.debug("Exited getMaxLeftoverWithTies() method");
-
-        return dtos;
-    }
-
-    private List<LeftoverDTO> getLeftoverDTOS(String query, String way) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
         List<LeftoverDTO> dtos = new ArrayList<>();
         try (Connection connection = connectionUtils.getConnection(properties);
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statement = connection.prepareStatement(SQL_FIND_MAX_WITH_TIES)) {
             statement.setString(1, properties.getProperty(CATEGORY));
 
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                LeftoverDTO dto = new LeftoverDTO(
-                        resultSet.getString("city"),
-                        resultSet.getString("address"),
-                        resultSet.getInt("amount"));
+                LeftoverDTO dto = getLeftoverDTO(resultSet);
                 dtos.add(dto);
             }
 
         } catch (SQLException e) {
-            logger.error("SQL error finding product");
+            logger.error("SQL error finding product", e);
         }
 
         stopWatch.stop();
-        logger.info("Get max leftover {} in {} ms", way, stopWatch.getTime());
+        logger.info("Get max leftover in {} ms", stopWatch.getTime());
+        logger.debug("Exited getMaxLeftoverWithTies() method");
+
         return dtos;
     }
 }

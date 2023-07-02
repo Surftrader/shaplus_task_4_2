@@ -40,7 +40,7 @@ public class ProductGenerator {
                 generateId(STORES));
     }
 
-    private Long generateId(int size) {
+    private Long generateId(Integer size) {
         int nextInt = random.nextInt(size);
         return (long) nextInt + 1;
     }

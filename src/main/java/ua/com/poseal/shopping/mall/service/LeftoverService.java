@@ -16,7 +16,7 @@ public class LeftoverService {
         leftoverDAO.insertDataIntoLeftover();
     }
 
-    public List<LeftoverDTO> findMaxLeftover() {
+    public LeftoverDTO findMaxLeftover() {
         return leftoverDAO.getMaxLeftover();
     }
 

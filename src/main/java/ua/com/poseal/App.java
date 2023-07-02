@@ -47,10 +47,11 @@ public class App {
         leftoverService.saveDataIntoLeftover();
 
         // query task
-        List<LeftoverDTO> maxLeftover = leftoverService.findMaxLeftover();
-        maxLeftover.forEach(s -> logger.info(String.valueOf(s)));
+        LeftoverDTO maxLeftover = leftoverService.findMaxLeftover();
+        logger.info("The maximum number of products contained in the store: {}", maxLeftover);
         // query task with ties
-        maxLeftover = leftoverService.findMaxLeftoverWithTies();
-        maxLeftover.forEach(s -> logger.info(String.valueOf(s)));
+        List<LeftoverDTO> maxLeftovers = leftoverService.findMaxLeftoverWithTies();
+        logger.info("The maximum number of products contained in stores:");
+        maxLeftovers.forEach(s -> logger.info(s.toString()));
     }
 }
