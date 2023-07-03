@@ -21,7 +21,6 @@ public class ProductGenerator {
     private static final double MAX_PRICE = 10000;
     private static final int MIN_LENGTH = 3;
     private static final int MAX_LENGTH = 10;
-    protected static final int CATEGORIES = 10;
     private static final int LETTERS_IN_ALPHABET = 26;
     private final Random random;
     private final Validator validator;
@@ -31,15 +30,15 @@ public class ProductGenerator {
         this.validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
 
-    public Product generateProduct() {
+    public Product generateProduct(int categories) {
         return new Product(
                 generateName(),
                 generatePrice(),
-                generateId());
+                generateId(categories));
     }
 
-    private Long generateId() {
-        int nextInt = random.nextInt(CATEGORIES);
+    protected Long generateId(int categories) {
+        int nextInt = random.nextInt(categories);
         return (long) nextInt + 1;
     }
 
@@ -58,7 +57,7 @@ public class ProductGenerator {
         return sb.toString();
     }
 
-    public List<Product> generateProducts(long numbers) {
+    public List<Product> generateProducts(long numbers, int categories) {
         logger.debug("Entered generateProducts() method with parameter numbers={}", numbers);
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
@@ -67,7 +66,7 @@ public class ProductGenerator {
         long validProductCount = 0;
         long invalidProductCount = 0;
         while (validProductCount < numbers) {
-            Product product = generateProduct();
+            Product product = generateProduct(categories);
             Set<ConstraintViolation<Product>> validate = validator.validate(product);
             if (validate.isEmpty()) {
                 products.add(product);

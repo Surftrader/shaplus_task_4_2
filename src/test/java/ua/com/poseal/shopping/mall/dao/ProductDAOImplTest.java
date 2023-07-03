@@ -20,9 +20,9 @@ import static ua.com.poseal.App.PRODUCTS;
 
 class ProductDAOImplTest {
 
-    private ProductDAO productDAO;
-    private ProductGenerator generator;
-    private static Properties properties;
+    ProductDAO productDAO;
+    ProductGenerator generator;
+    static Properties properties;
 
     @BeforeAll
     static void setUp() {
@@ -43,7 +43,8 @@ class ProductDAOImplTest {
     void insertProducts() {
         int expected = 3;
         properties.setProperty(PRODUCTS, String.valueOf(expected));
-        List<Product> products = initListProduct(expected);
+        long categories = new RowCounter(properties).countRows("shop.categories");
+        List<Product> products = initListProduct(expected, (int) categories);
 
         productDAO.insertProducts(products);
         long actual = new RowCounter(properties).countRows("shop.products");
@@ -51,10 +52,10 @@ class ProductDAOImplTest {
         assertEquals(expected, actual);
     }
 
-    private List<Product> initListProduct(int expected) {
+    private List<Product> initListProduct(int expected, int categories) {
         List<Product> list = new ArrayList<>();
         for (int i = 0; i < expected; i++) {
-            Product product = generator.generateProduct();
+            Product product = generator.generateProduct(categories);
             list.add(product);
         }
         return list;

@@ -1,6 +1,5 @@
 package ua.com.poseal.shopping.mall.util;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ua.com.poseal.shopping.mall.domain.Product;
@@ -9,28 +8,30 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static ua.com.poseal.shopping.mall.util.ProductGenerator.CATEGORIES;
 
 class ProductGeneratorTest {
 
+    Properties properties;
     ProductGenerator generator;
 
     @BeforeEach
     void init() {
+        properties = new Loader().getFileProperties();
         generator = new ProductGenerator();
     }
 
     @Test
-    void generateId() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
-        Method method = ProductGenerator.class.getDeclaredMethod("generateId");
-        method.setAccessible(true);
-        long actual = (long) method.invoke(generator);
+    void generateId() {
+        int categories = 10;
+        Long actual = generator.generateId(categories);
 
-        assertTrue(actual >= 1 & actual <= CATEGORIES);
+        assertTrue(actual >= 1 & actual <= categories);
     }
 
     @Test
@@ -71,7 +72,8 @@ class ProductGeneratorTest {
     @Test
     void generateProducts() {
         long expected = 10;
-        List<Product> products = generator.generateProducts(expected);
+        long categories = 15;
+        List<Product> products = generator.generateProducts(expected, (int) categories);
 
         assertEquals(products.size(), expected);
     }
