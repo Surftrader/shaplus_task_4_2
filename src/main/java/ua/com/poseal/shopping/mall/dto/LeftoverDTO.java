@@ -14,6 +14,6 @@ public class LeftoverDTO {
 
     @Override
     public String toString() {
-        return city + ", " + address + ", amount=" + amount;
+        return "city=" + city + ", " + "address=" + address + ", amount=" + amount;
     }
 }

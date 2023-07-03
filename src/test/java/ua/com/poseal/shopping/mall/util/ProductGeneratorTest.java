@@ -1,5 +1,6 @@
 package ua.com.poseal.shopping.mall.util;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ua.com.poseal.shopping.mall.domain.Product;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static ua.com.poseal.shopping.mall.util.ProductGenerator.CATEGORIES;
 
 class ProductGeneratorTest {
 
@@ -23,13 +25,12 @@ class ProductGeneratorTest {
     }
 
     @Test
-    void generateID() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method method = ProductGenerator.class.getDeclaredMethod("generateId", Integer.class);
+    void generateId() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+        Method method = ProductGenerator.class.getDeclaredMethod("generateId");
         method.setAccessible(true);
-        int expected = 10;
-        long actual = (long) method.invoke(generator, expected);
+        long actual = (long) method.invoke(generator);
 
-        assertTrue(actual >= 1 & actual <= expected);
+        assertTrue(actual >= 1 & actual <= CATEGORIES);
     }
 
     @Test

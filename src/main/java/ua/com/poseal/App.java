@@ -16,8 +16,9 @@ public class App {
 
     public static final Logger logger = LoggerFactory.getLogger("LOGGER");
     public static final String DB_FOLDER = "db";
-    public static final String SQL_CREATE_TABLES = "V1__create_tables.sql";
-    public static final String SQL_INSERT_DATA = "V2__insert_data.sql";
+    public static final String SQL_CREATE_SCHEMA = "V1__create_schema.sql";
+    public static final String SQL_CREATE_TABLES = "V2__create_tables.sql";
+    public static final String SQL_INSERT_DATA = "V3__insert_data.sql";
     public static final String PRODUCTS = "products";
 
     public static void main(String[] args) {
@@ -35,6 +36,7 @@ public class App {
 
         // create tables via scripts
         SQLExecutor sqlExecutor = new SQLExecutor(properties);
+        sqlExecutor.execute(DB_FOLDER + File.separator + SQL_CREATE_SCHEMA);
         sqlExecutor.execute(DB_FOLDER + File.separator + SQL_CREATE_TABLES);
         sqlExecutor.execute(DB_FOLDER + File.separator + SQL_INSERT_DATA);
 
@@ -44,11 +46,12 @@ public class App {
 
         // Fill leftover table
         LeftoverService leftoverService = new LeftoverService(properties);
-        leftoverService.saveDataIntoLeftover();
+        leftoverService.saveLeftover();
 
         // query task
         LeftoverDTO maxLeftover = leftoverService.findMaxLeftover();
-        logger.info("The maximum number of products contained in the store: {}", maxLeftover);
+        logger.info("The maximum number of products contained in the store:");
+        logger.info("{}", maxLeftover);
         // query task with ties
         List<LeftoverDTO> maxLeftovers = leftoverService.findMaxLeftoverWithTies();
         logger.info("The maximum number of products contained in stores:");

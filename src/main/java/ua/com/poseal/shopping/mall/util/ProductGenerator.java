@@ -21,8 +21,7 @@ public class ProductGenerator {
     private static final double MAX_PRICE = 10000;
     private static final int MIN_LENGTH = 3;
     private static final int MAX_LENGTH = 10;
-    private static final int CATEGORIES = 10;
-    private static final int STORES = 16;
+    protected static final int CATEGORIES = 10;
     private static final int LETTERS_IN_ALPHABET = 26;
     private final Random random;
     private final Validator validator;
@@ -36,12 +35,11 @@ public class ProductGenerator {
         return new Product(
                 generateName(),
                 generatePrice(),
-                generateId(CATEGORIES),
-                generateId(STORES));
+                generateId());
     }
 
-    private Long generateId(Integer size) {
-        int nextInt = random.nextInt(size);
+    private Long generateId() {
+        int nextInt = random.nextInt(CATEGORIES);
         return (long) nextInt + 1;
     }
 
@@ -80,8 +78,9 @@ public class ProductGenerator {
         }
 
         stopWatch.stop();
-        logger.info("{} products were generated in {} ms", products.size(), stopWatch.getTime());
-        logger.info("{} invalid products were generated", invalidProductCount);
+        long allProducts = validProductCount + invalidProductCount;
+        logger.info("{} products were generated per {} s", allProducts, stopWatch.getTime() / 1000.0);
+        logger.info("{} valid products. {} invalid products.", validProductCount, invalidProductCount);
         logger.debug("Exited generateProducts() method");
 
         return products;

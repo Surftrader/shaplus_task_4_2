@@ -10,21 +10,11 @@ public class Product {
     private String name;
     private final BigDecimal price;
     private final Long categoryId;
-    private final Long storeId;
 
-    public Product(String name, BigDecimal price, Long categoryId, Long storeId) {
+    public Product(String name, BigDecimal price, Long categoryId) {
         this.name = name;
         this.price = price;
         this.categoryId = categoryId;
-        this.storeId = storeId;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -65,7 +55,6 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", categoryId=" + categoryId +
-                ", storeId=" + storeId +
                 '}';
     }
 }

@@ -1,6 +1,7 @@
 package ua.com.poseal.shopping.mall.service;
 
 import ua.com.poseal.shopping.mall.dao.ProductDAO;
+import ua.com.poseal.shopping.mall.dao.ProductDAOImpl;
 import ua.com.poseal.shopping.mall.domain.Product;
 import ua.com.poseal.shopping.mall.util.ProductGenerator;
 
@@ -14,7 +15,7 @@ public class ProductService {
     private final ProductGenerator productGenerator;
 
     public ProductService(Properties properties) {
-        this.productDAO = new ProductDAO(properties);
+        this.productDAO = new ProductDAOImpl(properties);
         this.productGenerator = new ProductGenerator();
     }
 
