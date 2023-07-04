@@ -37,6 +37,7 @@ CREATE TABLE shop.products
 
 CREATE TABLE shop.leftover
 (
+    id   BIGSERIAL PRIMARY KEY NOT NULL,
     store_id   BIGINT NOT NULL,
     product_id BIGINT,
     amount     BIGINT,

@@ -38,10 +38,11 @@ public class ProductDAOImpl implements ProductDAO{
 
         try (Connection connection = this.connectionUtils.getConnection(properties);
              PreparedStatement statement = connection.prepareStatement(SQL_INSERT)) {
+            connection.setAutoCommit(false);
             for (int i = 0; i < batches; i++) {
                 int fromIndex = i * batchSize;
                 int toIndex = Math.min(fromIndex + batchSize, totalProducts);
-                List<Product> batch = products.subList(fromIndex, toIndex);
+                List<Product> batch = products.subList(fromIndex, toIndex); //  odd
                 for (Product product : batch) {
                     statement.setString(1, product.getName());
                     statement.setBigDecimal(2, product.getPrice());
@@ -49,7 +50,9 @@ public class ProductDAOImpl implements ProductDAO{
                     statement.addBatch();
                 }
                 statement.executeBatch();
+                connection.commit();
             }
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
             logger.error("SQL error saving product", e);
         }
