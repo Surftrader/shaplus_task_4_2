@@ -2,6 +2,7 @@ package ua.com.poseal.shopping.mall.domain;
 
 public class Leftover {
 
+    private Long id;
     private Long storeId;
     private Long productId;
     private Long amountId;
@@ -28,5 +29,20 @@ public class Leftover {
 
     public void setAmountId(Long amountId) {
         this.amountId = amountId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Leftover leftover = (Leftover) o;
+
+        return id.equals(leftover.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }

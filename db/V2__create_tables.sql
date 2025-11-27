@@ -1,6 +1,3 @@
-DROP SCHEMA shop CASCADE;
-CREATE SCHEMA shop;
-
 CREATE TABLE shop.cities
 (
     id   BIGSERIAL PRIMARY KEY NOT NULL,
@@ -40,6 +37,7 @@ CREATE TABLE shop.products
 
 CREATE TABLE shop.leftover
 (
+    id   BIGSERIAL PRIMARY KEY NOT NULL,
     store_id   BIGINT NOT NULL,
     product_id BIGINT,
     amount     BIGINT,

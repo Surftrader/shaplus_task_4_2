@@ -37,7 +37,7 @@ public class SQLExecutor {
         }
 
         stopWatch.stop();
-        logger.info("File {} was executed in {} ms", file, stopWatch.getTime());
+        logger.info("File {} was executed per {} s", file, stopWatch.getTime() / 1000.0);
         logger.debug("Exited execute() method");
     }
 }

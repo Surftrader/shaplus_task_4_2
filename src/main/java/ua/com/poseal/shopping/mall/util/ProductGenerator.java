@@ -21,8 +21,6 @@ public class ProductGenerator {
     private static final double MAX_PRICE = 10000;
     private static final int MIN_LENGTH = 3;
     private static final int MAX_LENGTH = 10;
-    private static final int CATEGORIES = 10;
-    private static final int STORES = 16;
     private static final int LETTERS_IN_ALPHABET = 26;
     private final Random random;
     private final Validator validator;
@@ -32,16 +30,15 @@ public class ProductGenerator {
         this.validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
 
-    public Product generateProduct() {
+    public Product generateProduct(int categories) {
         return new Product(
                 generateName(),
                 generatePrice(),
-                generateId(CATEGORIES),
-                generateId(STORES));
+                generateId(categories));
     }
 
-    private Long generateId(int size) {
-        int nextInt = random.nextInt(size);
+    protected Long generateId(int categories) {
+        int nextInt = random.nextInt(categories);
         return (long) nextInt + 1;
     }
 
@@ -60,7 +57,7 @@ public class ProductGenerator {
         return sb.toString();
     }
 
-    public List<Product> generateProducts(long numbers) {
+    public List<Product> generateProducts(long numbers, int categories) {
         logger.debug("Entered generateProducts() method with parameter numbers={}", numbers);
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
@@ -69,7 +66,7 @@ public class ProductGenerator {
         long validProductCount = 0;
         long invalidProductCount = 0;
         while (validProductCount < numbers) {
-            Product product = generateProduct();
+            Product product = generateProduct(categories);
             Set<ConstraintViolation<Product>> validate = validator.validate(product);
             if (validate.isEmpty()) {
                 products.add(product);
@@ -80,8 +77,9 @@ public class ProductGenerator {
         }
 
         stopWatch.stop();
-        logger.info("{} products were generated in {} ms", products.size(), stopWatch.getTime());
-        logger.info("{} invalid products were generated", invalidProductCount);
+        long allProducts = validProductCount + invalidProductCount;
+        logger.info("{} products were generated per {} s", allProducts, stopWatch.getTime() / 1000.0);
+        logger.info("{} valid products. {} invalid products.", validProductCount, invalidProductCount);
         logger.debug("Exited generateProducts() method");
 
         return products;

@@ -1,7 +1,5 @@
 package ua.com.poseal.shopping.mall.util;
 
-import ua.com.poseal.App;
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
@@ -36,8 +34,8 @@ public class Loader {
 
     protected void downloadExternalProperties(Properties properties, File file) {
         logger.debug("Entered downloadExternalProperties() method with arguments: properties={}, file={}", properties, file.getName());
-        try (InputStream is = new FileInputStream(file)) {
-            Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
+        try (InputStream is = new FileInputStream(file);
+             Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
             properties.load(reader);
             logger.info("Properties were downloaded from file={}", file.getName());
         } catch (IOException e) {
@@ -48,8 +46,8 @@ public class Loader {
 
     protected void downloadInternalProperties(Properties properties) {
         logger.debug("Entered downloadInternalProperties() method with argument: properties={}", properties);
-        try (InputStream is = App.class.getClassLoader().getResourceAsStream(PROPERTY_FILE)) {
-            Reader reader = new InputStreamReader(Objects.requireNonNull(is), StandardCharsets.UTF_8);
+        try (InputStream is = Loader.class.getClassLoader().getResourceAsStream(PROPERTY_FILE);
+             Reader reader = new InputStreamReader(Objects.requireNonNull(is), StandardCharsets.UTF_8)) {
             properties.load(reader);
         } catch (IOException e) {
             logger.error("Error loading properties from internal file", e);
